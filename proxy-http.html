@@ -20,13 +20,13 @@
                 var agent = new Object;
                 agent.activeXObject = ao; //被包裹的内核，是真正的通信对象
                 agent.syncAttribute = function() { //syncAttribute是用来同步属性的	
-                    try{
+                    try {
                         this.readyState = this.activeXObject.readystate;
                         this.responseText = this.activeXObject.responseText;
                         this.responseXML = this.activeXObject.responseXML;
                         this.status = this.activeXObject.status;
                         this.statusText = this.activeXObject.statusText;
-                    }catch(e) { }
+                    } catch(e) {}
                 };
                 agent.trigStateChange = function() { //模拟onreadystatechange
                     agent.syncAttribute();
@@ -58,6 +58,8 @@
                             dataType: '',
                             method: method
                         };
+                        var domain = new URL(url).hostname;
+                        if (domain in _hosts) pack.hostip = _hosts[domain];
                         url = location.protocol + '//' + location.host + '/proxy-http.php?' + $.param(pack);
                     }
                     this.activeXObject.open(method,url,asyncFlag,userName,password);
@@ -96,6 +98,8 @@
                         dataType: '',
                         method: method
                     };
+                    var domain = new URL(url).hostname;
+                    if (domain in _hosts) pack.hostip = _hosts[domain];
                     url = location.protocol + '//' + location.host + _proxyPath + '?' + $.param(pack);
                 }
                 oriXOpen.call(this,method,url,asncFlag,user,password); 
@@ -116,6 +120,8 @@
                     dataType: arguments[0].dataType,
                     method: arguments[0].type
                 };
+                var domain = new URL(arguments[0].url).hostname;
+                if (domain in _hosts) pack.hostip = _hosts[domain];
                 arguments[0].url = location.protocol + '//' + location.host + _proxyPath;
                 arguments[0].data = pack;
                 rawAjax.apply(this, arguments);
@@ -130,7 +136,10 @@
         
         var _inited = false;
         
+        var _hosts = {};
+        
         return {
+            hosts: _hosts,//domain - ip
             init: function(){
                 if (! _inited) {
                     _bindProxy();
@@ -141,13 +150,23 @@
     }
     
     
+    
+    
+    
     var TestCase = {
         run: function(){
-            (new Ph).init();
+            var ph = new Ph;
+            ph.init();
             
             //TEST JQ HOOK
             $.get('http://fm.miku.us/loadOne', function(j){
                 console.log({j:j});
+            }, 'jsonp');
+            
+            //TEST JQ HOSTS HOOK
+            ph.hosts['fm.danmu.me'] = '172.26.42.222';
+            $.get('http://fm.danmu.me/loadOne', function(j){
+                console.log({jj:j});
             }, 'jsonp');
             
             //TEST REGULAR HOOK
@@ -164,6 +183,7 @@
                     }
                 }
             };
+            
         }
     };
     
