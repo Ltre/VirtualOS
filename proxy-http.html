@@ -101,22 +101,19 @@
                 };
                 url = location.protocol + '//' + location.host + proxyPath + '?' + $.param(pack);
             }
-            alert('url: ' + url)
             oriXOpen.call(this,method,url,asncFlag,user,password); 
         };
-    
+
     }
     
     var rawAjax = $.ajax;
     $.ajax = function(){
-        console.log({a:arguments});//test
         var pack = {
             url: arguments[0].url,
             data: arguments[0].data || {},
             dataType: arguments[0].dataType,
             method: arguments[0].type
         };
-        //if (arguments[0].dataType == 'jsonp') pack.callback = 'jqueryCallback_' + (+ new Date);
         arguments[0].url = location.protocol + '//' + location.host + proxyPath;
         arguments[0].data = pack;
         rawAjax.apply(this, arguments);
@@ -131,11 +128,10 @@
     
     //TEST JQ HOOK
     $.get('http://fm.miku.us/loadOne', function(j){
-        alert(123);
         console.log({j:j});
     }, 'jsonp');
     
-    //TEST HOOK
+    //TEST REGULAR HOOK
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://localhost/webstorm/VirtualOS/bin.js', true);
     xhr.send();
