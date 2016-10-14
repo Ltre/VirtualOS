@@ -26,9 +26,9 @@ var TestCase = {
             if (xhr.readyState == 4) {
                 if (xhr.status == 200) {
                     console.log({xhr:xhr})
-                    alert(xhr.responseText);
+                    console.log(xhr.responseText);
                 } else {
-                    alert('wtf!');
+                    console.log('wtf!');
                 }
             }
         };
@@ -36,4 +36,4 @@ var TestCase = {
     }
 };
 
-TestCase.run();
+//TestCase.run();//暂停测试

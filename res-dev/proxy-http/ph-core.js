@@ -42,7 +42,7 @@ define(function(require, exports){
                 };
                 agent.open = function(method,url,asyncFlag,userName,password) {
                     if (_urlNeedPack(url)) {
-                        alert('IS IE, URL = ' + url);
+                        console.log('IS IE, URL = ' + url);
                         var pack = {
                             url: url,
                             data: {},
@@ -82,7 +82,7 @@ define(function(require, exports){
             var oriXOpen = XMLHttpRequest.prototype.open; 
             XMLHttpRequest.prototype.open = function(method,url,asncFlag,user,password) {
                 if (_urlNeedPack(url)) {
-                    alert('NOT IE, URL = ' + url);
+                    console.log('NOT IE, URL = ' + url);
                     var pack = {
                         url: url,
                         data: {},
@@ -130,6 +130,19 @@ define(function(require, exports){
         var _hosts = {};
         
         return {
+            tool: {
+                getProxyUrl: function(url, data, dataType, method){
+                    var pack = {
+                        url: url,
+                        data: data || {},
+                        dataType: dataType || 'html',
+                        method: method || 'GET'
+                    };
+                    var domain = new URL(url).hostname;
+                    if (domain in _hosts) pack.hostip = _hosts[domain];
+                    return location.protocol + '//' + location.host + _proxyPath + '?' + $.param(pack);
+                }
+            },
             hosts: _hosts,//domain - ip
             init: function(){
                 if (! _inited) {

@@ -3,10 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <title>proxy-http</title>
-<!-- <script src="//cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script> -->
-<script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="//cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<style>
+.glyphicon{
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+</style>
+
 </head>
 <body>
+
+<div class="container">
+    <br>
+    <div class="row">
+        <div class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="url" class="col-xs-1 control-label">URL: </label>
+                <div class="col-xs-10">
+                    <input type="text" class="form-control" id="url" placeholder="http://xxx.xxx.xxx/">
+                </div>
+                <div class="col-xs-1">
+                    <a id="go" href="javascript:;"><span class="glyphicon glyphicon-circle-arrow-right"></span></a>
+                </div>
+            </div>
+        </div>
+        <div class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="ip" class="col-xs-1 control-label">IP: </label>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" id="ip" placeholder="xxx.xxx.xxx.xxx">
+                </div>
+            </div>
+        </div>
+        <iframe id="webview" name="webview" class="well col-xs-10 col-xs-offset-1" style="height:600px; background-color:inherit;"></iframe>
+    </div>
+</div>
+
 <!-- <script src="res-dev/proxy-http/no-webpack-ver/proxy-http.js"></script> -->
 <script src="res-dist/ph-test-dist.js"></script>
 </body>
