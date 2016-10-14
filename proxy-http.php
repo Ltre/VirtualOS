@@ -64,5 +64,12 @@ $url = arg('url');
 $dataType = arg('dataType', 'html');
 $isPost = strtolower(arg('method')) == 'POST';
 $hostip = arg('hostip', null);
-echo curlz($url, $data, $isPost, $hostip);
-
+$isLoadIframe = arg('isLoadIframe', false);
+$ret = curlz($url, $data, $isPost, $hostip);
+if ($isLoadIframe) {
+    $pu = parse_url($url);
+    @$baseUrl = $pu['scheme'].'://'.$pu['host'].($pu['port']?'':':'.$pu['port']).'/';
+    $ret = str_replace('</body>', '<script src="'.$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].':'.$_SERVER['SERVER_PORT'].'/webstorm/VirtualOS/'.'res-dist/ph-test-dist.js"></script></body>', $ret);
+    $ret = str_replace('<head>', "<head><base href='{$baseUrl}'/>", $ret);
+}
+echo $ret;

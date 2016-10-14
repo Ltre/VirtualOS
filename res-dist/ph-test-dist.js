@@ -10496,6 +10496,7 @@
 	        var rawUrl = $('#url').val();
 	        var url = ph.tool.getProxyUrl(rawUrl);
 	        //window.webview.document.body.onload = function(){alert('ifr load')}
+	        url += (/\?/.test(url) ? '&' : '?') + 'isLoadIframe=1';
 	        $('#webview').attr('src', url);
 	        var ctx = $(window.webview.document.body);
 	        var iv = setInterval(function () {
